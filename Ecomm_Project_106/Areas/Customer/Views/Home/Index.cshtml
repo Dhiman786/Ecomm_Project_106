@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Ecomm_Project_106.Models.Product>
+<div class="row">
+	<div class="col-lg-8">
+	</div>
+	<div class="col-lg-4">
+		<div class="input-group">
+			<input type="text" id="searchInput" class="form-control" placeholder="Search products..." onkeyup="searchProducts()" />
+			<span class="input-group-text">
+				<i class="fa fa-search"></i>
+			</span>
+		</div>
+	</div>
+</div>
+<div class="row">
+	@foreach (var product in Model)
+	{
+		<div class="col-lg-3 col-md-6 product-card">
+			<div class="row p-2">
+				<div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
+					<div class="card" style="border:0px;">
+						<img src="@product.ImageUrl" class="card-img-top rounded" />
+						<div class="pl-1">
+							<p class="card-title h5">
+								<b style="color:#2c3e50" class="product-title">@product.Title</b>
+							</p>
+							<p class="card-title text-primary">
+								by
+								<b class="product-author">@product.Author</b>
+							</p>
+							<p class="card-title text-info">
+								Category:
+								<b class="product-category">@product.Category.Name</b>
+							</p>
+						</div>
+						<div style="padding-left:5px;">
+							<p>
+								List Price: <strike>
+									<b class="">$@product.ListPrice.ToString("0.00")</b>
+								</strike>
+							</p>
+						</div>
+						<div style="padding-left:5px;">
+							<p style="color:maroon">
+								As low as:
+								<b class="product-price">$@product.Price100.ToString("0.00")</b>
+							</p>
+						</div>
+					</div>
+					<div>
+						<a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@product.Id">Details</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+<h4 id="noProductMessage" class="text-center text-danger mt-3" style="display: none;">
+	No products available
+</h4>
+<script>
+	function searchProducts() {
+		var input = document.getElementById("searchInput").value.toLowerCase();
+		var products = document.querySelectorAll(".product-card");
+		var noProductMessage = document.getElementById("noProductMessage");
+		var found = false;
+		products.forEach(function (product) {
+			var title = product.querySelector(".product-title").innerText.toLowerCase();
+			var author = product.querySelector(".product-author").innerText.toLowerCase();
+			var price1 = product.querySelector(".product-price").innerText.toLowerCase();
+			var category=product.querySelector(".product-category").innerText.toLowerCase();
+			if (title.includes(input) || author.includes(input)  || price1.includes(input) || category.includes(input)) {
+				product.style.display = "block";
+				found = true;
+			} else {
+				product.style.display = "none";
+			}
+		});
+		// Show or hide "No products available" message
+		noProductMessage.style.display = found ? "none" : "block";
+	}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @model IEnumerable<Ecomm_Project_106.Models.Product>
+<div class="row">
+   @foreach(var product in Model)
+{
+    <div class="col-lg-3 col-md-6">
+        <div class="row p-2">
+            <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                <div class="card" style="border:0px;">
+                    <img src="@product.ImageUrl" class="card-img-top rounded" />
+                    <div class="pl-1">
+                        <p class="card-title h5"><b style="color:#2c3e50">@product.Title</b></p>
+                        <p class="card-title text-primary">by <b>@product.Author</b></p>
+                    </div>
+                    <div style="padding-left:5px;">
+                        <p>List Price: <strike><b class="">$@product.ListPrice.ToString("0.00")</b></strike></p>
+                    </div>
+                    <div style="padding-left:5px;">
+                        <p style="color:maroon">As low as: <b class="">$@product.Price100.ToString("0.00")</b></p>
+                    </div>
+                </div>
+                <div>
+                    <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@product.Id">Details</a>
+                </div>
+            </div>
+        </div>
+   </div>   
+}
+</div> *@
